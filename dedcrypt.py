@@ -2,6 +2,7 @@ import base64
 import os
 import sys
 import re
+import subprocess
 
 def remove_comments(script):
     return re.sub(r"#.*", "", script)
@@ -32,24 +33,29 @@ def process_file(input_path, output_filename):
     print("Arquivo descriptografado salvo em:", output_filename)
 
 def main():
-    if len(sys.argv) != 3:
-        print("Uso: python dedcrypt.py <caminho_do_arquivo_criptografado> <nome_do_arquivo_de_saida>")
-        sys.exit(1)
+    if len(sys.argv) == 3:
+        input_path = sys.argv[1]
+        output_filename = sys.argv[2]
 
-    input_path = sys.argv[1]
-    output_filename = sys.argv[2]
-
-    if not os.path.exists(input_path):
-        script_filename = get_script_filename()
-        input_path = os.path.join(os.path.dirname(script_filename), input_path)
         if not os.path.exists(input_path):
-            print("Caminho inválido. Certifique-se de fornecer um arquivo válido.")
-            sys.exit(1)
+            script_filename = get_script_filename()
+            input_path = os.path.join(os.path.dirname(script_filename), input_path)
+            if not os.path.exists(input_path):
+                print("Caminho inválido. Certifique-se de fornecer um arquivo válido.")
+                sys.exit(1)
 
-    if os.path.isfile(input_path):
-        process_file(input_path, output_filename)
+        if os.path.isfile(input_path):
+            process_file(input_path, output_filename)
+
+            # Executa o script criptografado sem comentários e com "exec" substituído por "print"
+            subprocess.run(["python", output_filename])
+        else:
+            print("Caminho inválido. Certifique-se de fornecer um arquivo válido.")
     else:
-        print("Caminho inválido. Certifique-se de fornecer um arquivo válido.")
+        print("Uso: python script.py <caminho_do_arquivo_criptografado> <nome_do_arquivo_de_saida>")
+        input_path = input("Digite o caminho para o arquivo criptografado: ")
+        output_filename = input("Digite o nome do arquivo de saída: ")
+        process_file(input_path, output_filename)
 
 if __name__ == "__main__":
     main()
