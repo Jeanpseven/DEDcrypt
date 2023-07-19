@@ -1,6 +1,10 @@
 import base64
 import os
 import sys
+import re
+
+def remove_comments(script):
+    return re.sub(r"#.*", "", script)
 
 def decode_dedsec_string(encoded_string):
     decoded = base64.b64decode(encoded_string).decode("utf-8")
@@ -14,7 +18,10 @@ def get_script_filename():
 
 def process_file(input_path, output_filename):
     with open(input_path, "r") as file:
-        dedsec_encoded = file.read().strip()
+        script_content = file.read()
+
+    script_without_comments = remove_comments(script_content)
+    dedsec_encoded = script_without_comments.split('="')[-1][:-3]
 
     dedsec_decoded = decode_dedsec_string(dedsec_encoded)
     dedsec_decoded = dedsec_decoded.replace("exec", "print")
