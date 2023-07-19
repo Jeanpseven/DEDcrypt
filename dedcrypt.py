@@ -7,7 +7,7 @@ def remove_comments(script):
     return re.sub(r"#.*", "", script)
 
 def decode_dedsec_string(encoded_string):
-    decoded = base64.b64decode(encoded_string).decode("utf-8")
+    decoded = base64.b64decode(encoded_string)
     return decoded
 
 def get_script_filename():
@@ -23,7 +23,7 @@ def process_file(input_path, output_filename):
     script_without_comments = remove_comments(script_content)
     dedsec_encoded = script_without_comments.split('="')[-1][:-3]
 
-    dedsec_decoded = decode_dedsec_string(dedsec_encoded)
+    dedsec_decoded = decode_dedsec_string(dedsec_encoded).decode("utf-8")
     dedsec_decoded = dedsec_decoded.replace("exec", "print")
 
     with open(output_filename, "w") as file:
