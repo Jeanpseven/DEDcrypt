@@ -17,6 +17,13 @@ def get_script_filename():
         script_filename = script_filename[:-3]  # Remove a extensão .py se estiver presente
     return script_filename
 
+def find_crypt_file():
+    script_filename = get_script_filename()
+    for file in os.listdir():
+        if file.endswith(".py") and file != script_filename:
+            return file
+    return None
+
 def process_file(input_path, output_filename):
     with open(input_path, "r", encoding="utf-8") as file:
         script_content = file.read()
@@ -33,8 +40,15 @@ def process_file(input_path, output_filename):
     print("Arquivo descriptografado salvo em:", output_filename)
 
 def main():
-    input_path = input("Digite o caminho para o arquivo criptografado: ")
+    input_path = input("Digite o caminho para o arquivo criptografado (ou deixe em branco para procurar no diretório atual): ")
     output_filename = input("Digite o nome do arquivo de saída: ")
+
+    if not input_path:
+        input_path = find_crypt_file()
+
+    if not input_path:
+        print("Nenhum arquivo criptografado encontrado no diretório atual.")
+        sys.exit(1)
 
     if not os.path.exists(input_path):
         print("Caminho inválido. Certifique-se de fornecer um arquivo válido.")
