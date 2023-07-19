@@ -33,7 +33,7 @@ def process_file(input_path, output_filename):
 
 def main():
     if len(sys.argv) != 3:
-        print("Uso: python script.py <caminho_do_arquivo_criptografado> <nome_do_arquivo_de_saida>")
+        print("Uso: python dedcrypt.py <caminho_do_arquivo_criptografado> <nome_do_arquivo_de_saida>")
         sys.exit(1)
 
     input_path = sys.argv[1]
