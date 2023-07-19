@@ -48,14 +48,19 @@ def main():
             process_file(input_path, output_filename)
 
             # Executa o script criptografado sem comentários e com "exec" substituído por "print"
-            subprocess.run(["python", output_filename])
+            subprocess.run(f"python {output_filename}", shell=True)
+
         else:
             print("Caminho inválido. Certifique-se de fornecer um arquivo válido.")
+
     else:
-        print("Uso: python dedcrypt.py <caminho_do_arquivo_criptografado> <nome_do_arquivo_de_saida>")
+        print("Uso: python script.py <caminho_do_arquivo_criptografado> <nome_do_arquivo_de_saida>")
         input_path = input("Digite o caminho para o arquivo criptografado: ")
         output_filename = input("Digite o nome do arquivo de saída: ")
         process_file(input_path, output_filename)
+
+        # Executa o script criptografado sem comentários e com "exec" substituído por "print"
+        subprocess.run(f"python {output_filename}", shell=True)
 
 if __name__ == "__main__":
     main()
