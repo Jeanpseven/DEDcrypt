@@ -52,7 +52,7 @@ def main():
         else:
             print("Caminho inválido. Certifique-se de fornecer um arquivo válido.")
     else:
-        print("Uso: python script.py <caminho_do_arquivo_criptografado> <nome_do_arquivo_de_saida>")
+        print("Uso: python dedcrypt.py <caminho_do_arquivo_criptografado> <nome_do_arquivo_de_saida>")
         input_path = input("Digite o caminho para o arquivo criptografado: ")
         output_filename = input("Digite o nome do arquivo de saída: ")
         process_file(input_path, output_filename)
