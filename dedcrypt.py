@@ -24,10 +24,10 @@ def process_file(input_path, output_filename):
     script_without_comments = remove_comments(script_content)
     dedsec_encoded = script_without_comments.split('="')[-1][:-3]
 
-    dedsec_decoded = decode_dedsec_string(dedsec_encoded).decode("utf-8")
-    dedsec_decoded = dedsec_decoded.replace("exec", "print")
+    dedsec_decoded = decode_dedsec_string(dedsec_encoded)
+    dedsec_decoded = dedsec_decoded.replace(b"exec", b"print")
 
-    with open(output_filename, "w") as file:
+    with open(output_filename, "wb") as file:
         file.write(dedsec_decoded)
 
     print("Arquivo descriptografado salvo em:", output_filename)
